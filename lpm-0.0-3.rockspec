@@ -1,11 +1,12 @@
 package = 'lpm'
-version = '0.0-2'
+version = '0.0-3'
 rockspec_format = '3.0'
 source = {
-    url = 'https://github.com/mzaini30/lpm/archive/v0.0-2.tar.gz',
-    dir = 'lpm-0.0-2'
+    url = 'https://github.com/mzaini30/lpm/archive/v0.0-3.tar.gz',
+    dir = 'lpm-0.0-3'
 }
 description = {
+    summary = '"npm" for Lua',
     detailed = '"npm" for Lua',
     homepage = 'https://github.com/mzaini30/lpm',
     license = 'MIT <http://opensource.org/licenses/MIT>'
