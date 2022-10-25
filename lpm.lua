@@ -11,7 +11,11 @@ if arg[1] == "tes" then
   if manifest then
     manifest = manifest:read("*a")
     manifest = trim(manifest)
-    
+    local baca = io.open(manifest, "r")
+    if baca then
+      baca = baca:read("*a")
+      print(baca)
+    end
   end
 end
 
