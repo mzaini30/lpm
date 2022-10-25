@@ -14,8 +14,6 @@ test = {
 }
 test_dependencies = {
 }
-dependencies = {
-}
 build = {
     type = 'builtin',
     install = {
@@ -24,4 +22,6 @@ build = {
         }
     }
 }
-      
+-- dependencies harus paling bawah
+dependencies = {
+}

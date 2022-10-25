@@ -2,11 +2,34 @@
 
 package.path = package.path .. ";lua_modules/share/lua/5.1/?.lua"
 
-function trim(teks)
+local function trim(teks)
   return teks:gsub("^%s*(.-)%s*$", "%1")
 end
 
-if arg[1] == "tes" then
+local function split(inputstr, sep)
+  if sep == nil then
+    sep = "%s"
+  end
+  local t={}
+  for str in string.gmatch(inputstr, "([^"..sep.."]+)") do
+    table.insert(t, str)
+  end
+  return t
+end
+
+local function unik(data)
+  local hash = {}
+  local res = {}
+  for _,v in ipairs(data) do
+    if (not hash[v]) then
+        res[#res+1] = v -- you could print here instead of saving to result table if you wanted
+        hash[v] = true
+    end
+  end
+  return res
+end
+
+local function olah_rockspec(datanya)
   local manifest = io.popen("ls *.rockspec")
   if manifest then
     manifest = manifest:read("*a")
@@ -14,10 +37,42 @@ if arg[1] == "tes" then
     local baca = io.open(manifest, "r")
     if baca then
       baca = baca:read("*a")
-      print(baca)
+
+      baca_duplikat = baca
+      baca_duplikat = baca_duplikat:gsub("[%s%S]+dependencies = {", ""):gsub("}", "")
+      baca_duplikat = trim(baca_duplikat)
+      local paket = split(baca_duplikat, "\n")
+      for n, x in ipairs(paket) do
+        paket[n] = trim(x):gsub("\"", ""):gsub(",", "")
+      end
+      for n, x in ipairs(datanya) do
+        table.insert(paket, x)
+      end
+      paket = unik(paket)
+      local dependencies = "dependencies = {\n"
+      for n, x in ipairs(paket) do
+        dependencies = dependencies .. "    \"" .. x .. "\",\n"
+      end
+      dependencies = dependencies:sub(0, -3) .. "\n"
+      dependencies = dependencies .. "}"
+
+      baca = baca:gsub("[^_]dependencies = {[%s%S]+}", "") .. "\n" .. dependencies
+      local ubah_manifest = io.open(manifest, "w")
+      if ubah_manifest then
+        ubah_manifest:write(baca)
+      end
     end
   end
 end
+
+-- if arg[1] == "tes" then
+--   local tambahan = {
+--     "satu",
+--     "dua",
+--     "uuid"
+--   }
+--   olah_rockspec(tambahan)
+-- end
 
 if arg[1] == "i" then
   -- install dari rockspec dulu
@@ -28,12 +83,15 @@ if arg[1] == "i" then
     os.execute("luarocks install --tree lua_modules \"" .. rockspec .. "\" --only-deps")
 
     if arg[2] then -- contoh: lpm i a b c
+      local paket_baru = {}
       for n, x in ipairs(arg) do
         if n > 1 then
           -- masukkan ke rockspec
           os.execute("luarocks install " .. x .. " --tree lua_modules")
+          table.insert(paket_baru, x)
         end
       end
+      olah_rockspec(paket_baru)
     end
   end
 end
@@ -56,10 +114,11 @@ test = {
 }
 test_dependencies = {
 }
-dependencies = {
-}
 build = {
     type = 'none'
+}
+-- dependencies harus paling bawah
+dependencies = {
 }
       ]])
     end
