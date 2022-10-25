@@ -1,10 +1,26 @@
 #!/bin/lua
 
+package.path = package.path .. ";lua_modules/share/lua/5.1/?.lua"
+
+function trim(teks)
+  return teks:gsub("^%s*(.-)%s*$", "%1")
+end
+
+if arg[1] == "tes" then
+  local manifest = io.popen("ls *.rockspec")
+  if manifest then
+    manifest = manifest:read("*a")
+    manifest = trim(manifest)
+    
+  end
+end
+
 if arg[1] == "i" then
   -- install dari rockspec dulu
   local popen_rockspec = io.popen("ls *.rockspec")
+  if popen_rockspec then
     local rockspec = popen_rockspec:read("*a")
-    rockspec = rockspec:gsub("^%s*(.-)%s*$", "%1") -- nama file rockspec-nya
+    rockspec = trim(rockspec) -- nama file rockspec-nya
     os.execute("luarocks install --tree lua_modules \"" .. rockspec .. "\" --only-deps")
 
     if arg[2] then -- contoh: lpm i a b c
@@ -15,15 +31,16 @@ if arg[1] == "i" then
         end
       end
     end
-
-  popen_rockspec:close()
+  end
 end
 
 if arg[1] == "init" then -- sudah
   local popen_folder = io.popen("basename $(pwd)")
+  if popen_folder then
     local folder = popen_folder:read("*a")
     folder = folder:gsub("^%s*(.-)%s*$", "%1")
     local file = io.open(folder .. "-0.0-1.rockspec", "w")
+    if file then
       file:write([[
 package = ']] .. folder .. [['
 version = '0.0-1'
@@ -41,8 +58,8 @@ build = {
     type = 'none'
 }
       ]])
-    file:close()
-  popen_folder:close()
+    end
+  end
 end
 
 if arg[1] == "c" then -- sudah
