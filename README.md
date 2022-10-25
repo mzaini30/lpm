@@ -36,6 +36,7 @@ lpm c
 
 ## TODO
 
+- [ ] modify rockspec file (using: luarocks --tree lua_modules/ list)
 - [ ] lpm version
 - [ ] lpm run
 - [ ] lpm test
