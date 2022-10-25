@@ -1,6 +1,15 @@
 #!/bin/lua
 
 if arg[1] == "i" then
+  if arg[2] then
+
+  else -- langsung install rockspec (sudah)
+    local popen_rockspec = io.popen("ls *.rockspec")
+    local rockspec = popen_rockspec:read("*a")
+      rockspec = rockspec:gsub("^%s*(.-)%s*$", "%1")
+      os.execute("luarocks install --tree lua_modules \"" .. rockspec .. "\" --only-deps")
+    popen_rockspec:close()
+  end
 end
 
 if arg[1] == "init" then -- sudah

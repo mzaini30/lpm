@@ -16,6 +16,12 @@ luarocks install lpm
 lpm init
 ```
 
+### Install from Rockspec
+
+```bash
+lpm i
+```
+
 ### Clean
 
 ```bash
