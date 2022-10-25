@@ -119,8 +119,7 @@ build = {
 }
 -- dependencies harus paling bawah
 dependencies = {
-}
-      ]])
+}]])
     end
   end
 end
