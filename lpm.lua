@@ -1,15 +1,21 @@
 #!/bin/lua
 
 if arg[1] == "i" then
-  if arg[2] then
+  -- install dari rockspec dulu
+  local popen_rockspec = io.popen("ls *.rockspec")
+  local rockspec = popen_rockspec:read("*a")
+    rockspec = rockspec:gsub("^%s*(.-)%s*$", "%1")
+    os.execute("luarocks install --tree lua_modules \"" .. rockspec .. "\" --only-deps")
+  popen_rockspec:close()
 
-  else -- langsung install rockspec (sudah)
-    local popen_rockspec = io.popen("ls *.rockspec")
-    local rockspec = popen_rockspec:read("*a")
-      rockspec = rockspec:gsub("^%s*(.-)%s*$", "%1")
-      os.execute("luarocks install --tree lua_modules \"" .. rockspec .. "\" --only-deps")
-    popen_rockspec:close()
+  if arg[2] then -- contoh: lpm i a b c
+    for n, x in ipairs(arg) do
+      if n > 1 then
+        os.execute("luarocks install " .. x .. " --tree lua_modules")
+      end
+    end
   end
+
 end
 
 if arg[1] == "init" then -- sudah

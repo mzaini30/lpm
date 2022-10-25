@@ -1,14 +1,14 @@
 # lpm
 
-`npm` versi Lua.
+Lua version `npm`.
 
-## Instalasi
+## Installation
 
 ```bash
 luarocks install lpm
 ```
 
-## Penggunaan
+## Using
 
 ### Init
 
@@ -22,8 +22,21 @@ lpm init
 lpm i
 ```
 
+### Install New Packages
+
+```bash
+lpm i package1 package2 package3
+```
+
 ### Clean
 
 ```bash
 lpm c
 ```
+
+## TODO
+
+- [ ] lpm version
+- [ ] lpm run
+- [ ] lpm test
+- [ ] lpm publish
