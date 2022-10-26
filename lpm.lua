@@ -22,11 +22,24 @@ local function unik(data)
   local res = {}
   for _,v in ipairs(data) do
     if (not hash[v]) then
-        res[#res+1] = v -- you could print here instead of saving to result table if you wanted
-        hash[v] = true
+      res[#res+1] = v -- you could print here instead of saving to result table if you wanted
+      hash[v] = true
     end
   end
   return res
+end
+
+local function is_rockspec()
+  local manifest = io.popen("ls *.rockspec")
+  if manifest then
+    manifest = manifest:read("*a")
+    manifest = trim(manifest)
+    if #manifest > 0 then
+      return true
+    else
+      return false
+    end
+  end
 end
 
 local function olah_rockspec(datanya)
@@ -65,16 +78,42 @@ local function olah_rockspec(datanya)
   end
 end
 
--- if arg[1] == "tes" then
---   local tambahan = {
---     "satu",
---     "dua",
---     "uuid"
---   }
---   olah_rockspec(tambahan)
--- end
+local function init()
+  local cek_dulu = is_rockspec()
+  if not cek_dulu then
+    local popen_folder = io.popen("basename $(pwd)")
+    if popen_folder then
+      local folder = popen_folder:read("*a")
+      folder = folder:gsub("^%s*(.-)%s*$", "%1")
+      local file = io.open(folder .. "-0.0-1.rockspec", "w")
+      if file then
+        file:write([[
+package = ']] .. folder .. [['
+version = '0.0-1'
+rockspec_format = '3.0'
+source = {
+    url = 'https://github.com/yourname/]]..folder..[[/archive/v0.0-1.tar.gz'
+}
+test = {
+}
+test_dependencies = {
+}
+build = {
+    type = 'none'
+}
+-- dependencies harus paling bawah
+dependencies = {
+}]])
+      end
+    end
+  end
+end
 
 if arg[1] == "i" then
+  local cek_dulu = is_rockspec()
+  if not cek_dulu then
+    init()
+  end
   -- install dari rockspec dulu
   local popen_rockspec = io.popen("ls *.rockspec")
   if popen_rockspec then
@@ -97,31 +136,7 @@ if arg[1] == "i" then
 end
 
 if arg[1] == "init" then -- sudah
-  local popen_folder = io.popen("basename $(pwd)")
-  if popen_folder then
-    local folder = popen_folder:read("*a")
-    folder = folder:gsub("^%s*(.-)%s*$", "%1")
-    local file = io.open(folder .. "-0.0-1.rockspec", "w")
-    if file then
-      file:write([[
-package = ']] .. folder .. [['
-version = '0.0-1'
-rockspec_format = '3.0'
-source = {
-    url = ''
-}
-test = {
-}
-test_dependencies = {
-}
-build = {
-    type = 'none'
-}
--- dependencies harus paling bawah
-dependencies = {
-}]])
-    end
-  end
+  init()
 end
 
 if arg[1] == "c" then -- sudah
