@@ -1,7 +1,5 @@
 #!/bin/lua
 
-package.path = package.path .. ";lua_modules/share/lua/5.1/?.lua"
-
 local function trim(teks)
   return teks:gsub("^%s*(.-)%s*$", "%1")
 end
