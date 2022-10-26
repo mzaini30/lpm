@@ -41,3 +41,6 @@ lpm c
 - [ ] lpm run
 - [ ] lpm test
 - [ ] lpm publish
+- [ ] lpm init: kalau sudah ada file rockspec, cancel
+- [ ] lpm i: kalau belum ada file rockspec, jalankan "lpm init" terlebih dahulu
+- [ ] pas init, masukkan "url" sekalian
