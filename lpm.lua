@@ -90,7 +90,8 @@ package = ']] .. folder .. [['
 version = '0.0-1'
 rockspec_format = '3.0'
 source = {
-    url = 'https://github.com/yourname/]]..folder..[[/archive/v0.0-1.tar.gz'
+    url = 'https://github.com/yourname/]]..folder..[[/archive/v0.0-1.tar.gz',
+    dir = ']]..folder..[[-0.0-1'
 }
 test = {
 }
