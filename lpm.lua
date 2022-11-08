@@ -119,7 +119,7 @@ if arg[1] == "i" then
     local rockspec = popen_rockspec:read("*a")
     rockspec = trim(rockspec) -- nama file rockspec-nya
     -- os.execute("luarocks install --tree lua_modules \"" .. rockspec .. "\" --only-deps")
-    os.execute("luarocks --local install \"" .. rockspec .. "\" --only-deps")
+    os.execute("luarocks install \"" .. rockspec .. "\" --only-deps")
 
     if arg[2] then -- contoh: lpm i a b c
       local paket_baru = {}
@@ -127,7 +127,7 @@ if arg[1] == "i" then
         if n > 1 then
           -- masukkan ke rockspec
           -- os.execute("luarocks install " .. x .. " --tree lua_modules")
-          os.execute("luarocks --local install " .. x)
+          os.execute("luarocks install " .. x)
           table.insert(paket_baru, x)
         end
       end
