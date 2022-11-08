@@ -28,12 +28,6 @@ lpm i
 lpm i package1 package2 package3
 ```
 
-### Clean
-
-```bash
-lpm c
-```
-
 ## TODO
 
 - [x] modify rockspec file (using: luarocks --tree lua_modules/ list)
@@ -44,3 +38,4 @@ lpm c
 - [x] lpm init: kalau sudah ada file rockspec, cancel
 - [x] lpm i: kalau belum ada file rockspec, jalankan "lpm init" terlebih dahulu
 - [x] pas init, masukkan "url" sekalian
+- [x] install in global

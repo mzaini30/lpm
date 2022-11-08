@@ -99,7 +99,7 @@ test_dependencies = {
 build = {
     type = 'none'
 }
--- dependencies harus paling bawah
+-- dependencies must be at the bottom
 dependencies = {
 }]])
       end
@@ -117,14 +117,16 @@ if arg[1] == "i" then
   if popen_rockspec then
     local rockspec = popen_rockspec:read("*a")
     rockspec = trim(rockspec) -- nama file rockspec-nya
-    os.execute("luarocks install --tree lua_modules \"" .. rockspec .. "\" --only-deps")
+    -- os.execute("luarocks install --tree lua_modules \"" .. rockspec .. "\" --only-deps")
+    os.execute("luarocks --local install \"" .. rockspec .. "\" --only-deps")
 
     if arg[2] then -- contoh: lpm i a b c
       local paket_baru = {}
       for n, x in ipairs(arg) do
         if n > 1 then
           -- masukkan ke rockspec
-          os.execute("luarocks install " .. x .. " --tree lua_modules")
+          -- os.execute("luarocks install " .. x .. " --tree lua_modules")
+          os.execute("luarocks --local install " .. x)
           table.insert(paket_baru, x)
         end
       end
@@ -137,6 +139,6 @@ if arg[1] == "init" then -- sudah
   init()
 end
 
-if arg[1] == "c" then -- sudah
-  os.execute("luarocks purge --tree lua_modules")
-end
+-- if arg[1] == "c" then -- sudah
+--   os.execute("luarocks purge --tree lua_modules")
+-- end
