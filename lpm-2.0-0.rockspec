@@ -1,9 +1,9 @@
 package = 'lpm'
-version = '1.0-1'
+version = '2.0-0'
 rockspec_format = '3.0'
 source = {
-    url = 'https://github.com/mzaini30/lpm/archive/v1.0-1.tar.gz',
-    dir = 'lpm-1.0-1'
+    url = 'https://github.com/mzaini30/lpm/archive/v2.0-0.tar.gz',
+    dir = 'lpm-2.0-0'
 }
 test = {
 }
