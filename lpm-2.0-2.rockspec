@@ -1,10 +1,10 @@
 ---@diagnostic disable: lowercase-global
 package = 'lpm'
-version = '2.0-1'
+version = '2.0-2'
 rockspec_format = '3.0'
 source = {
-    url = 'https://github.com/mzaini30/lpm/archive/v2.0-1.tar.gz',
-    dir = 'lpm-2.0-1'
+    url = 'https://github.com/mzaini30/lpm/archive/v2.0-2.tar.gz',
+    dir = 'lpm-2.0-2'
 }
 description = {
     summary = "Package management like NPM in Node.js, but for Lua.",

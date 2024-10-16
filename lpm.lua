@@ -82,10 +82,12 @@ local function init()
     local popen_folder = io.popen("basename $(pwd)")
     if popen_folder then
       local folder = popen_folder:read("*a")
+      -- dummy folder
+      -- folder = 'kucing-makan-nasi'
       folder = folder:gsub("^%s*(.-)%s*$", "%1")
       local file = io.open(folder .. "-0.0-1.rockspec", "w")
       -- local nama_folder: local folder jadi capitalize dan ubah strip jadi spasi
-      local nama_folder = folder:gsub("^%l", string.upper):gsub("%s", " ")
+      local nama_folder = folder:gsub("-", " "):gsub("^%l", string.upper)
       if file then
         file:write([=[
 ---@diagnostic disable: lowercase-global
@@ -108,7 +110,7 @@ description = {
 build = {
     type = 'builtin',
     modules = {
-        ]=] .. folder .. [=[ = 'index.lua',
+        [']=] .. folder .. [=['] = 'index.lua',
     },
 }
 -- dependencies must be at the bottom
