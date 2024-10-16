@@ -8,8 +8,8 @@ local function split(inputstr, sep)
   if sep == nil then
     sep = "%s"
   end
-  local t={}
-  for str in string.gmatch(inputstr, "([^"..sep.."]+)") do
+  local t = {}
+  for str in string.gmatch(inputstr, "([^" .. sep .. "]+)") do
     table.insert(t, str)
   end
   return t
@@ -18,9 +18,9 @@ end
 local function unik(data)
   local hash = {}
   local res = {}
-  for _,v in ipairs(data) do
+  for _, v in ipairs(data) do
     if (not hash[v]) then
-      res[#res+1] = v -- you could print here instead of saving to result table if you wanted
+      res[#res + 1] = v -- you could print here instead of saving to result table if you wanted
       hash[v] = true
     end
   end
@@ -49,7 +49,7 @@ local function olah_rockspec(datanya)
     if baca then
       baca = baca:read("*a")
 
-      baca_duplikat = baca
+      local baca_duplikat = baca
       baca_duplikat = baca_duplikat:gsub("[%s%S]+dependencies = {", ""):gsub("}", "")
       baca_duplikat = trim(baca_duplikat)
       local paket = split(baca_duplikat, "\n")
@@ -84,35 +84,46 @@ local function init()
       local folder = popen_folder:read("*a")
       folder = folder:gsub("^%s*(.-)%s*$", "%1")
       local file = io.open(folder .. "-0.0-1.rockspec", "w")
+      -- local nama_folder: local folder jadi capitalize dan ubah strip jadi spasi
+      local nama_folder = folder:gsub("^%l", string.upper):gsub("%s", " ")
       if file then
-        file:write([[
-package = ']] .. folder .. [['
+        file:write([=[
+---@diagnostic disable: lowercase-global
+package = ']=] .. folder .. [=['
 version = '0.0-1'
 rockspec_format = '3.0'
 source = {
-    url = 'https://github.com/yourname/]]..folder..[[/archive/v0.0-1.tar.gz',
-    dir = ']]..folder..[[-0.0-1'
+    url = 'https://github.com/yourname/]=] .. folder .. [=[/archive/v0.0-1.tar.gz',
+    dir = ']=] .. folder .. [=[-0.0-1'
 }
-test = {
-}
-test_dependencies = {
+description = {
+  summary = "]=] .. nama_folder .. [=[",
+  homepage = "https://github.com/yourname/]=] .. folder .. [=[",
+  license = "MIT",
+  detailed = [[
+      ]=] .. nama_folder .. [=[
+
+  ]],
 }
 build = {
-    type = 'none'
+    type = 'builtin',
+    modules = {
+        ]=] .. folder .. [=[ = 'index.lua',
+    },
 }
 -- dependencies must be at the bottom
 dependencies = {
-}]])
+}]=])
       end
     end
   end
 end
 
 if arg[1] == "i" then
-  local cek_dulu = is_rockspec()
-  if not cek_dulu then
-    init()
-  end
+  -- local cek_dulu = is_rockspec()
+  -- if not cek_dulu then
+  init()
+  -- end
   -- install dari rockspec dulu
   local popen_rockspec = io.popen("ls *.rockspec")
   if popen_rockspec then
